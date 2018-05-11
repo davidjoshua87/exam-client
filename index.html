@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Exam-Grm</title>
+  <style>
+    body {
+      background-color: rgb(10, 10, 10);
+    }
+  </style>
+  <title>Exam-Gram</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="col-md-5" style="background-color: white; padding: 60px; border: 1px solid #e6e6e6;">
+      <h3 class="text-center" style="margin-top:0">Exam-Garam</h3>
+      <p class="text-center" style="color:#999;font-weight:700;font-size:17px;line-height:20px;">Sign In to upload and see photos.</p>
+      <div class="form-group">
+        <input type="text" class="form-control" v-model="email" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" v-model="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default" @click="checkLoginStatus()" href="upload.html" style="width:100%;background-color:#3897f0;color:white;"><b>Request-Token</b></button>
+      </div>
+      <br>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        email: '',
+        name: ''
+      },
+      methods: {
+        checkLoginStatus: function() {
+          axios
+            .post('http://35.198.212.156/request-token', {
+              email: this.email,
+              name: this.name
+            })
+            .then(response => {
+              console.log('masukk', response);
+              if (response.data.token) {
+                localStorage.setItem('token', response.data.token)
+                window.setTimeout(function() {
+                  location.reload();
+                }, 2000);
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        },
+      },
+      computed: {}
+    })
+  </script>
+</body>
+
+</html>
